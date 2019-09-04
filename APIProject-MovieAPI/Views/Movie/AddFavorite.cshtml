@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "AddFavorite";
+}
+
+<h1>AddFavorite</h1>
+
+@model IEnumerable<FavoriteMovies>
+
+
+<table class="table-bordered">
+    <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Rated</th>
+        <th>Runtime</th>
+        <th>Director</th>
+        <th>Genre</th>
+    </tr>
+    @foreach (var movie in Model)
+    {
+        <tr>
+            <td>@movie.Title</td>
+            <td>@movie.Year</td>
+            <td>@movie.Rated</td>
+            <td>@movie.Runtime</td>
+            <td>@movie.Director</td>
+            <td>@movie.Genre</td>
+        </tr>
+    }
+
+</table>
+
