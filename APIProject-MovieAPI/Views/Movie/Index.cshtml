@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model APIProject_MovieAPI.Models.Movie
+<h1>Index</h1>
+
+<form action="/Movie/SearchByTitle" method="post">
+    <input type="text" name="title" value="title" />
+    <input type="number" name="year" value="" />
+    <input type="submit" name="Submit" value="Submit" />
+</form>
+

@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "SearchByTitle";
+}
+
+@model APIProject_MovieAPI.Models.Movie
+<h1>SearchByTitle</h1>
+
+<table class="table-bordered">
+    <tr>
+        <th>Title</th>
+        <th>Release Year</th>
+        <th>Rated</th>
+        <th>Director</th>
+        <th>Genre</th>
+        <th>Actors</th>
+    </tr>
+    <tr>
+            <td>@Model.Title</td>
+            <td>@Model.Year</td>
+            <td>@Model.Rated</td>
+            <td>@Model.Director</td>
+            <td>@Model.Genre</td>
+            <td>@Model.Actors</td>
+        </tr>
+    
+</table>
+
+
