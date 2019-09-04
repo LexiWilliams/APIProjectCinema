@@ -36,7 +36,7 @@ namespace APIProject_MovieAPI.Controllers
                 client.BaseAddress = new Uri("http://www.omdbapi.com");
 
                 string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
-                var response = await client.GetAsync($"?t={title}&y={yearstring}&plot=full&apikey={apiKey}");
+                var response = await client.GetAsync($"?t={title}&y={yearstring}&apikey={apiKey}");
                 var name = await response.Content.ReadAsAsync<Movie>();
                 return View(name);
             }
@@ -47,12 +47,11 @@ namespace APIProject_MovieAPI.Controllers
                 client.BaseAddress = new Uri("http://www.omdbapi.com");
                 string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
 
-                var response = await client.GetAsync($"?t={title}&plot=full&apikey={apiKey}");
+                var response = await client.GetAsync($"?t={title}&apikey={apiKey}");
                 var name = await response.Content.ReadAsAsync<Movie>();
                 return View(name);
             }
         }
-        [HttpPost]
         public IActionResult AddFavorite(Movie movie)
         {
             AspNetUsers thisUser = _context.AspNetUsers.Where(u => u.UserName == User.Identity.Name).First();
@@ -72,9 +71,9 @@ namespace APIProject_MovieAPI.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("FavoriteMovies");
             }
-            return View("SearchByTitle");
+           return RedirectToAction("Index");
         }
-        public IActionResult FavoriteMovies()
+    public IActionResult FavoriteMovies()
         {
             AspNetUsers thisUser = _context.AspNetUsers.Where(u => u.UserName == User.Identity.Name).First();
             List<FavoriteMovies> favoriteList = _context.FavoriteMovies.Where(u => u.UserId == thisUser.Id).ToList();
