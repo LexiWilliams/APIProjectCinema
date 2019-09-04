@@ -42,8 +42,12 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image: url(https://cdn.pixabay.com/photo/2017/04/15/23/57/film-2233656_1280.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 .footer {
   position: absolute;
@@ -54,3 +58,5 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
