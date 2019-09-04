@@ -17,11 +17,13 @@ namespace APIProject_MovieAPI.Controllers
     {
         private readonly CinemaContext _context;
         private readonly IConfiguration _configuration;
+        private readonly string _apiKey;
 
         public MovieController(CinemaContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+            _apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
 
         }
         public IActionResult Index()
@@ -34,37 +36,35 @@ namespace APIProject_MovieAPI.Controllers
             if (year != 0)
             {
                 title.Replace(" ", "+");
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("http://www.omdbapi.com");
-
-                string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
-                var response = await client.GetAsync($"?s={title}&y={yearstring}&apikey={apiKey}");
+                var client = GetHttpClient();
+                var response = await client.GetAsync($"?s={title}&y={yearstring}&apikey={_apiKey}");
                 var name = await response.Content.ReadAsAsync<MovieList>();
                 return View(name);
             }
             else
             {
                 title.Replace(" ", "+");
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("http://www.omdbapi.com");
-                string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
-
-                var response = await client.GetAsync($"?s={title}&apikey={apiKey}");
+                var client = GetHttpClient();
+                var response = await client.GetAsync($"?s={title}&apikey={_apiKey}");
                 var name = await response.Content.ReadAsAsync<MovieList>();
                 return View(name);
             }
         }
         public async Task<IActionResult> Details(Movie movie)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("http://www.omdbapi.com");
+            var client = GetHttpClient();
             var yearstring = movie.Year;
             var title = movie.Title;
             title.Replace(" ", "+");
-            string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
-            var response = await client.GetAsync($"?t={title}&y={yearstring}&apikey={apiKey}");
+            var response = await client.GetAsync($"?t={title}&y={yearstring}&apikey={_apiKey}");
             var name = await response.Content.ReadAsAsync<Movie>();
             return View(name);
+        }
+        public static HttpClient GetHttpClient()
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://www.omdbapi.com");
+            return client;
         }
             public IActionResult AddFavorite(Movie movie)
         {
