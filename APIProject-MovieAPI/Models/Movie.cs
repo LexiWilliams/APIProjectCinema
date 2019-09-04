@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace APIProject_MovieAPI.Models
 {
-
+    public class MovieList
+    {
+        public Movie[] Search { get; set; }
+        public string totalResults { get; set; }
+        public string Response { get; set; }
+    }
     public class Movie
     {
         public string Title { get; set; }

@@ -3,28 +3,22 @@
     ViewData["Title"] = "SearchByTitle";
 }
 
-@model APIProject_MovieAPI.Models.Movie
+@model APIProject_MovieAPI.Models.MovieList
 <h1>Search By Title</h1>
+    <table class="table-dark" style="border-spacing: 15px 2px; border-collapse: separate; border-color: white;">
+        <tr>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Details</th>
+        </tr>
+        @foreach (var movie in Model.Search)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Year</td>
+                <td>@Html.ActionLink("Details", "Details", "Movie", movie)</td>
+                <td>@Html.ActionLink("Add to Favorites", "AddFavorite", "Movie", movie)</td>
+            </tr>
+        }
 
-<table class="table-dark" style="border-spacing: 15px 2px; border-collapse: separate; border-color: white;">
-    <tr>
-        <th>Title</th>
-        <th>Release Year</th>
-        <th>Rated</th>
-        <th>Director</th>
-        <th>Genre</th>
-        <th>Actors</th>
-    </tr>
-    <tr>
-        <td>@Model.Title</td>
-        <td>@Model.Year</td>
-        <td>@Model.Rated</td>
-        <td>@Model.Director</td>
-        <td>@Model.Genre</td>
-        <td>@Model.Actors</td>
-        <td>@Html.ActionLink("Add to Favorites", "AddFavorite", "Movie", Model)</td>
-    </tr>
-    
-</table>
-
-
+    </table>

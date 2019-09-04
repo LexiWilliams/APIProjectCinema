@@ -38,8 +38,8 @@ namespace APIProject_MovieAPI.Controllers
                 client.BaseAddress = new Uri("http://www.omdbapi.com");
 
                 string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
-                var response = await client.GetAsync($"?t={title}&y={yearstring}&apikey={apiKey}");
-                var name = await response.Content.ReadAsAsync<Movie>();
+                var response = await client.GetAsync($"?s={title}&y={yearstring}&apikey={apiKey}");
+                var name = await response.Content.ReadAsAsync<MovieList>();
                 return View(name);
             }
             else
@@ -49,12 +49,24 @@ namespace APIProject_MovieAPI.Controllers
                 client.BaseAddress = new Uri("http://www.omdbapi.com");
                 string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
 
-                var response = await client.GetAsync($"?t={title}&apikey={apiKey}");
-                var name = await response.Content.ReadAsAsync<Movie>();
+                var response = await client.GetAsync($"?s={title}&apikey={apiKey}");
+                var name = await response.Content.ReadAsAsync<MovieList>();
                 return View(name);
             }
         }
-        public IActionResult AddFavorite(Movie movie)
+        public async Task<IActionResult> Details(Movie movie)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://www.omdbapi.com");
+            var yearstring = movie.Year;
+            var title = movie.Title;
+            title.Replace(" ", "+");
+            string apiKey = _configuration.GetSection("AppConfiguration")["APIKey"];
+            var response = await client.GetAsync($"?t={title}&y={yearstring}&apikey={apiKey}");
+            var name = await response.Content.ReadAsAsync<Movie>();
+            return View(name);
+        }
+            public IActionResult AddFavorite(Movie movie)
         {
             AspNetUsers thisUser = _context.AspNetUsers.Where(u => u.UserName == User.Identity.Name).First();
             FavoriteMovies favorite = new FavoriteMovies();
